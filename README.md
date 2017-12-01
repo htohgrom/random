@@ -1,6 +1,6 @@
 # Advent of Code 2017
 
-My solutions to the Advent of Code 2017 exercises.
+My solutions to the [Advent of Code 2017](http://adventofcode.com/2017) puzzles.
 
 ## Day 1: Inverse Captcha
 
