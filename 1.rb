@@ -44,31 +44,19 @@
 # 
 # What is the solution to your captcha?
 
-def solve(input)
-  result = 0
-  input.split('').each.with_index do |el, i|
-    if el == input[i+1] then
-      result = result + el.to_i
-    end
-  end
-  if input[0] == input[-1] then
-    result = result + input[0].to_i
-  end
-  result
+def test(input, expect, fun)
+  result = fun.call(input)
+  result_str = result == expect ? "[ OK ]" : "[FAIL]"
+  puts "#{result_str} input: #{input} result: #{result} expected: #{expect}"
 end
 
-puts "*** 1. Test ***"
-puts 'solve("1122") == ' + solve("1122").to_s
-puts 'solve("1111") == ' + solve("1111").to_s
-puts 'solve("1234") == ' + solve("1234").to_s
-puts 'solve("91212129") ==' + solve("91212129").to_s
-
-puts "*** 1. Result ***"
-input = File.read("1.input")
-input.strip!
-puts solve(input)
-
-# Part 2
+def solve(input)
+  res = 0
+  (0..input.length).each do |i|
+    res += input[i].to_i if input[i] == input[i-1]
+  end
+  res
+end
 
 def solve2(input)
   result = 0
@@ -82,13 +70,27 @@ def solve2(input)
   result
 end
 
-puts "\n"
+# Testing and results
+input = File.read("1.input").strip
+
+puts "*** 1. Test ***"
+f = lambda {|x| solve(x)}
+test("1122", 3, f)
+test("1111", 4, f)
+test("1234", 0, f)
+test("91212129", 9, f)
+
+puts "*** 1. Result ***"
+puts solve(input)
+
+puts
 puts "*** 2. Test ***"
-puts 'solve2("1212") == ' + "#{solve2("1212")} : #{solve2("1212") == 6}"
-puts 'solve2("1221") == ' + "#{solve2("1221")} : #{solve2("1221") == 0}"
-puts 'solve2("123425") == ' + "#{solve2("123425")} : #{solve2("123425") == 4}"
-puts 'solve2("123123") == ' + "#{solve2("123123")} : #{solve2("123123") == 12}"
-puts 'solve2("12131415") == ' + "#{solve2("12131415")} : #{solve2("12131415") == 4}"
+f = lambda {|x| solve2(x)}
+test("1212", 6, f)
+test("1221", 0, f)
+test("123425", 4, f)
+test("123123", 12, f)
+test("12131415", 4, f)
 
 puts "*** 2. Result ***"
 puts solve2(input)
