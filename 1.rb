@@ -2,7 +2,6 @@
 #
 # Advent of Code 2017
 #
-#
 # --- Day 1: Inverse Captcha ---
 # 
 # The night before Christmas, one of Santa's Elves calls you in a panic. "The
@@ -45,4 +44,27 @@
 # 
 # What is the solution to your captcha?
 
+def solve(input)
+  result = 0
+  input.split('').each.with_index do |el, i|
+    if el == input[i+1] then
+      result = result + el.to_i
+    end
+  end
+  if input[0] == input[-1] then
+    result = result + input[0].to_i
+  end
+  result
+end
+
+puts "*** Test ***"
+puts 'solve("1122") == ' + solve("1122").to_s
+puts 'solve("1111") == ' + solve("1111").to_s
+puts 'solve("1234") == ' + solve("1234").to_s
+puts 'solve("91212129") ==' + solve("91212129").to_s
+
+puts "*** Result ***"
+input = File.read("1.input")
+input.strip!
+puts solve(input)
 
