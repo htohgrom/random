@@ -57,14 +57,38 @@ def solve(input)
   result
 end
 
-puts "*** Test ***"
+puts "*** 1. Test ***"
 puts 'solve("1122") == ' + solve("1122").to_s
 puts 'solve("1111") == ' + solve("1111").to_s
 puts 'solve("1234") == ' + solve("1234").to_s
 puts 'solve("91212129") ==' + solve("91212129").to_s
 
-puts "*** Result ***"
+puts "*** 1. Result ***"
 input = File.read("1.input")
 input.strip!
 puts solve(input)
 
+# Part 2
+
+def solve2(input)
+  result = 0
+  x = input.length / 2
+  len = input.length
+  input.split('').each.with_index do |el, i|
+    if el == input[(i+x)%len] then
+      result = result + el.to_i
+    end
+  end
+  result
+end
+
+puts "\n"
+puts "*** 2. Test ***"
+puts 'solve2("1212") == ' + "#{solve2("1212")} : #{solve2("1212") == 6}"
+puts 'solve2("1221") == ' + "#{solve2("1221")} : #{solve2("1221") == 0}"
+puts 'solve2("123425") == ' + "#{solve2("123425")} : #{solve2("123425") == 4}"
+puts 'solve2("123123") == ' + "#{solve2("123123")} : #{solve2("123123") == 12}"
+puts 'solve2("12131415") == ' + "#{solve2("12131415")} : #{solve2("12131415") == 4}"
+
+puts "*** 2. Result ***"
+puts solve2(input)
