@@ -19,7 +19,7 @@ def solver(input, opt)
   res
 end
 
-input = prep(File.read("1.input"))
+input = prep(File.read("data/1.input"))
 
 puts "*** Test ***"
 puts "1:"

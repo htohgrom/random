@@ -2,7 +2,7 @@
 
 # input = [0, 2, 7, 0]
 
-input = File.read("6.input.txt").strip.split.map(&:to_i)
+input = File.read("data/6.input").strip.split.map(&:to_i)
 
 step = 0
 len = input.length
