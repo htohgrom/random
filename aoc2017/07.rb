@@ -1,29 +1,38 @@
 #!/usr/bin/env ruby -w
 
-input = File.read("data/07.txt").strip.split("\n")
-p input.length
-
-# Leave only processes carring other processes
-carrying = input.select {|s| s.include?("->")}
-p carrying.length
-
-procs = []
-nextprocs = []
-carrying.each do |proc|
-  dupa = proc.split("->")
-  procname = dupa[0].split[0]
-
-  procs << procname
-
-  nextprocs << dupa[1].gsub(",", "").split
+class Node
+  def initialize(name, weight, children = [])
+    @name = name
+    @weight = weight
+    @children = children
+  end
 end
 
-nextprocs = nextprocs.flatten.uniq
+input = File.read("data/07.txt").strip.split("\n")
 
-puts "procs count: #{procs.length}"
-puts "nextprocs count: #{nextprocs.length}"
+$weights = {}
+$children = {}
 
-procs = procs.reject {|p| nextprocs.include?(p)}
-p procs
+input.each do |line|
+  name, w, *ch = line.scan(/\w+/) # so cool
+  $weights[name] = w.to_i
+  $children[name] = ch
+end
 
-# This is extremely ugly brute-force and doesn't help a bit with part 2.
+puts "input.length #{input.length}"
+puts "weights.length #{$weights.length}"
+puts "children.length #{$children.length}"
+
+result = $children.keys - $children.values.flatten
+p result
+
+# ---
+
+def wght(x)
+  return $weights[x] + $children[x].map {|ch| wght(ch)}.reduce(0) {|s, n| s+= n}
+end
+
+puts "root.weight #{wght(result[0])}"
+$children[result[0]].each do |ch|
+  puts "#{ch}.weight #{wght(ch)}"
+end
